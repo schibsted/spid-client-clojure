@@ -1,14 +1,15 @@
 # sdk-clojure
 
-A Clojure library designed to ... well, that part is up to you.
+A Clojure wrapper for the SPID Java SDK.
 
 ## Usage
 
-FIXME
+First get sdk-java installed in your .m2:
 
-## License
+```sh
+git clone https://github.com/schibsted/sdk-java.git
+cd sdk-java
+mvn install
+```
 
-Copyright © 2014 FIXME
-
-Distributed under the Eclipse Public License either version 1.0 or (at
-your option) any later version.
+Then start the repl with `lein repl`.
