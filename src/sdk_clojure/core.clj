@@ -1,5 +1,5 @@
 (ns sdk-clojure.core
-  (:import [no.spp.sdk.client ServerClientBuilder]
+  (:import [no.spp.sdk.client ServerClientBuilder SPPClientResponse]
            [no.spp.sdk.oauth ClientCredentials])
   (:require [clojure.data.json :as json]
             [clojure.walk :refer [keywordize-keys]]))
@@ -15,8 +15,19 @@
         (.withBaseUrl (:spp-base-url options))
         (.build))))
 
-(defn GET [client end-point]
-  (-> client
-      (.GET end-point)
+(defn- cleanup [^SPPClientResponse response]
+  (-> response
       (.getResponseBody)
       (json/read-str :key-fn keyword)))
+
+(defn GET [client end-point & [parameters]]
+  (-> client (.GET end-point (or parameters {})) cleanup))
+
+(defn POST [client end-point parameters]
+  (-> client (.POST end-point parameters) cleanup))
+
+(defn PUT [client end-point parameters]
+  (-> client (.PUT end-point parameters) cleanup))
+
+(defn DELETE [client end-point]
+  (-> client (.DELETE end-point) cleanup))
