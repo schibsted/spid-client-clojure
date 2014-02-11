@@ -2,7 +2,7 @@
 
 A Clojure wrapper for the SPID Java SDK.
 
-## Usage
+## Install
 
 First get sdk-java installed in your .m2:
 
@@ -12,7 +12,20 @@ cd sdk-java
 mvn install
 ```
 
-Then start the repl with `lein repl`.
+Then install spid-sdk-clojure:
+
+```sh
+cd spid-sdk-clojure
+lein install
+```
+
+Finally use it in your project.clj:
+
+```clj
+[spid-sdk-clojure "0.1.0"]
+```
+
+## Usage
 
 Create a client with:
 

@@ -1,4 +1,4 @@
-(ns sdk-clojure.core
+(ns spid-sdk-clojure.core
   (:import [no.spp.sdk.client ServerClientBuilder SPPClientResponse]
            [no.spp.sdk.oauth ClientCredentials])
   (:require [clojure.data.json :as json]))
