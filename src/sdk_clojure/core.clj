@@ -14,19 +14,19 @@
         (.withBaseUrl (:spp-base-url options))
         (.build))))
 
-(defn- cleanup [^SPPClientResponse response]
+(defn- parse-response [^SPPClientResponse response]
   (-> response
       (.getResponseBody)
       (json/read-str :key-fn keyword)))
 
 (defn GET [client end-point & [parameters]]
-  (-> client (.GET end-point (or parameters {})) cleanup))
+  (-> client (.GET end-point (or parameters {})) parse-response))
 
 (defn POST [client end-point parameters]
-  (-> client (.POST end-point parameters) cleanup))
+  (-> client (.POST end-point parameters) parse-response))
 
 (defn PUT [client end-point parameters]
-  (-> client (.PUT end-point parameters) cleanup))
+  (-> client (.PUT end-point parameters) parse-response))
 
 (defn DELETE [client end-point]
-  (-> client (.DELETE end-point) cleanup))
+  (-> client (.DELETE end-point) parse-response))
