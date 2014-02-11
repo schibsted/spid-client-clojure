@@ -1,6 +1,22 @@
-(ns sdk-clojure.core)
+(ns sdk-clojure.core
+  (:import [no.spp.sdk.client ServerClientBuilder]
+           [no.spp.sdk.oauth ClientCredentials])
+  (:require [clojure.data.json :as json]
+            [clojure.walk :refer [keywordize-keys]]))
 
-(defn foo
-  "I don't do a whole lot."
-  [x]
-  (println x "Hello, World!"))
+(def defaults
+  {:spp-base-url "https://stage.payment.schibsted.no"
+   :redirect-uri "http://localhost/oauth/login"})
+
+(defn create-client [client-id secret & [options]]
+  (let [options (merge options defaults)]
+    (-> (ClientCredentials. client-id secret (:redirect-uri options))
+        (ServerClientBuilder.)
+        (.withBaseUrl (:spp-base-url options))
+        (.build))))
+
+(defn GET [client end-point]
+  (-> client
+      (.GET end-point)
+      (.getResponseBody)
+      (json/read-str :key-fn keyword)))

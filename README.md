@@ -13,3 +13,22 @@ mvn install
 ```
 
 Then start the repl with `lein repl`.
+
+Create a client with:
+
+```clj
+(def client (create-client client-id secret))
+```
+
+You can also pass in an option map. These are the defaults:
+
+```clj
+{:spp-base-url "https://stage.payment.schibsted.no"
+ :redirect-uri "http://localhost/oauth/login"}
+```
+
+Then call the API with:
+
+```clj
+(GET client "users/")
+```
