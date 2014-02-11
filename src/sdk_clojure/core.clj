@@ -1,8 +1,7 @@
 (ns sdk-clojure.core
   (:import [no.spp.sdk.client ServerClientBuilder SPPClientResponse]
            [no.spp.sdk.oauth ClientCredentials])
-  (:require [clojure.data.json :as json]
-            [clojure.walk :refer [keywordize-keys]]))
+  (:require [clojure.data.json :as json]))
 
 (def defaults
   {:spp-base-url "https://stage.payment.schibsted.no"
