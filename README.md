@@ -27,18 +27,11 @@ You can also pass in an option map. These are the defaults:
  :redirect-uri "http://localhost:8080"}
 ```
 
-In order for the redirect URL to make any sense (this is only used when logging
-in with OAuth), you must run the API explorer from the java-sdk:
-
-```sh
-cd sdk-java/example
-mvn jetty:run
-```
-
-This is entirely optional.
-
 Finally, call the API with:
 
 ```clj
 (GET client "/users")
 ```
+
+Note: The `:redirect-uri` really makes no sense in this context, but
+is required by the API. It only comes into play when logging in as a user.
