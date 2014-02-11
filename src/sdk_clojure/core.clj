@@ -6,7 +6,7 @@
 
 (def defaults
   {:spp-base-url "https://stage.payment.schibsted.no"
-   :redirect-uri "http://localhost/oauth/login"})
+   :redirect-uri "http://localhost:8080"})
 
 (defn create-client [client-id secret & [options]]
   (let [options (merge options defaults)]
