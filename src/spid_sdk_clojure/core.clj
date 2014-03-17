@@ -1,5 +1,5 @@
 (ns spid-sdk-clojure.core
-  (:import [no.spp.sdk.client ServerClientBuilder SPPClientResponse]
+  (:import [no.spp.sdk.client ServerClientBuilder UserClientBuilder SPPClientResponse]
            [no.spp.sdk.oauth ClientCredentials])
   (:require [clojure.data.json :as json]))
 
@@ -7,10 +7,18 @@
   {:spp-base-url "https://stage.payment.schibsted.no"
    :redirect-uri "http://localhost:8080"})
 
-(defn create-client [client-id secret & [options]]
+(defn create-server-client [client-id secret & [options]]
   (let [options (merge options defaults)]
     (-> (ClientCredentials. client-id secret (:redirect-uri options))
         (ServerClientBuilder.)
+        (.withBaseUrl (:spp-base-url options))
+        (.build))))
+
+(defn create-user-client [code client-id secret & [options]]
+  (let [options (merge options defaults)]
+    (-> (ClientCredentials. client-id secret (:redirect-uri options))
+        (UserClientBuilder.)
+        (.withUserAuthorizationCode code)
         (.withBaseUrl (:spp-base-url options))
         (.build))))
 
