@@ -22,7 +22,7 @@ lein install
 Finally use it in your project.clj:
 
 ```clj
-[spid-sdk-clojure "0.1.0"]
+[spid-sdk-clojure "0.2.0"]
 ```
 
 ## Usage
