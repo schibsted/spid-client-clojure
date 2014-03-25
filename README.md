@@ -1,4 +1,4 @@
-# sdk-clojure
+# spid-sdk-clojure
 
 A Clojure wrapper for the SPID Java SDK.
 
