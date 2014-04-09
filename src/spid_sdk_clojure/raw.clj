@@ -9,12 +9,14 @@
   {:body (.getResponseBody response)
    :status (.getHttpResponseCode response)
    :error (.getError response)
-   :data (and (.getData response) (json-parse (.getData response)))})
+   :data (and (.getData response) (json-parse (.getData response)))
+   :success? (<= 200 (.getHttpResponseCode response) 299)})
 
 (defn- mapify-error [error]
   {:body (.getResponseBody error)
    :status (.getHttpResponseCode error)
-   :error (:error (json-parse (.getResponseBody error)))})
+   :error (:error (json-parse (.getResponseBody error)))
+   :success? false})
 
 (defmacro request [forms]
   `(try
