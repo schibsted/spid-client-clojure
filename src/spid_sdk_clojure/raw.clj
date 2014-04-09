@@ -1,10 +1,11 @@
-(ns spid-sdk-clojure.raw)
+(ns spid-sdk-clojure.raw
+  (:require [clojure.data.json :as json]))
 
 (defn mapify-response [response]
-  {:body (.responseBody response)
-   :status (.httpResponseCode response)
-   :error (.error response)
-   :data (.data response)})
+  {:body (.getResponseBody response)
+   :status (.getHttpResponseCode response)
+   :error (.getError response)
+   :data (json/read-str (.getData response) :key-fn keyword)})
 
 (defn GET [client endpoint & [parameters]]
   (-> client (.GET endpoint (or parameters {})) mapify-response))
