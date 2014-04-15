@@ -1,5 +1,6 @@
 (ns spid-sdk-clojure.raw
-  (:require [clojure.data.json :as json])
+  (:require [clojure.data.json :as json]
+            [clojure.walk :refer [stringify-keys]])
   (:import no.spp.sdk.exception.SPPClientResponseException))
 
 (defn- json-parse [data]
@@ -27,13 +28,13 @@
        (mapify-error e#))))
 
 (defn GET [client endpoint & [parameters]]
-  (request (.GET client endpoint (or parameters {}))))
+  (request (.GET client endpoint (stringify-keys (or parameters {})))))
 
-(defn POST [client endpoint parameters]
-  (-> client (.POST endpoint parameters) mapify-response))
+(defn POST [client endpoint & [parameters]]
+  (request (.POST client endpoint (stringify-keys parameters))))
 
-(defn PUT [client endpoint parameters]
-  (-> client (.PUT endpoint parameters) mapify-response))
+(defn PUT [client endpoint & [parameters]]
+  (request (.PUT client endpoint (stringify-keys parameters))))
 
-(defn DELETE [client endpoint]
-  (-> client (.DELETE endpoint) mapify-response))
+(defn DELETE [client endpoint & [parameters]]
+  (request (.DELETE client endpoint (stringify-keys parameters))))
