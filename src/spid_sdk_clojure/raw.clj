@@ -37,4 +37,4 @@
   (request (.PUT client endpoint (stringify-keys parameters))))
 
 (defn DELETE [client endpoint & [parameters]]
-  (request (.DELETE client endpoint (stringify-keys parameters))))
+  (request (.DELETE client endpoint)))
