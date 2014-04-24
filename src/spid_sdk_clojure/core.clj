@@ -8,7 +8,7 @@
    :redirect-uri "http://localhost:8080"})
 
 (defn create-server-client [client-id secret & [options]]
-  (let [options (merge options defaults)]
+  (let [options (merge defaults options)]
     (-> (ClientCredentials. client-id secret (:redirect-uri options))
         (ServerClientBuilder.)
         (.withBaseUrl (:spp-base-url options))
