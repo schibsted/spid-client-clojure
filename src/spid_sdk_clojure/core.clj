@@ -29,7 +29,7 @@
   {:spid-base-url "https://stage.payment.schibsted.no"
    :redirect-uri "http://localhost:8080"})
 
-(defn create-server-client [client-id secret & [options]]
+(defn create-client [client-id secret & [options]]
   (let [options (merge defaults options)]
     (-> (SpidApiClient$ClientBuilder. client-id
                                       secret
