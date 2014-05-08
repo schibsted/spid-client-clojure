@@ -1,40 +1,60 @@
 (ns spid-sdk-clojure.core
-  (:import [no.spp.sdk.client ServerClientBuilder UserClientBuilder SPPClientResponse]
-           [no.spp.sdk.oauth ClientCredentials])
-  (:require [clojure.data.json :as json]))
+  (:import [no.spid.api.client SpidApiClient$ClientBuilder SpidApiResponse]
+           [no.spid.api.oauth SpidOAuthToken]
+           [no.spid.api.exceptions SpidApiException])
+  (:require [clojure.data.json :as json]
+            [clojure.walk :refer [stringify-keys]]))
+
+(defn- json-parse [data]
+  (json/read-str data :key-fn keyword))
+
+(defn- mapify-response [response]
+  (let [json (json-parse (.getRawBody response))]
+    {:body (.getRawBody response)
+     :status (.getResponseCode response)
+     :error (:error json)
+     :data (:data json)
+     :container json
+     :success? (<= 200 (.getResponseCode response) 299)}))
+
+(defn- mapify-error [error]
+  (let [json (json-parse (.getResponseBody error))]
+    {:body (.getResponseBody error)
+     :status (.getResponseCode error)
+     :error (:error json)
+     :container json
+     :success? false}))
 
 (def defaults
-  {:spp-base-url "https://stage.payment.schibsted.no"
+  {:spid-base-url "https://stage.payment.schibsted.no"
    :redirect-uri "http://localhost:8080"})
 
 (defn create-server-client [client-id secret & [options]]
   (let [options (merge defaults options)]
-    (-> (ClientCredentials. client-id secret (:redirect-uri options))
-        (ServerClientBuilder.)
-        (.withBaseUrl (:spp-base-url options))
+    (-> (SpidApiClient$ClientBuilder. client-id
+                                      secret
+                                      (:signature-secret options)
+                                      (:redirect-uri options)
+                                      (:spid-base-url options))
         (.build))))
 
-(defn create-user-client [code client-id secret & [options]]
-  (let [options (merge options defaults)]
-    (-> (ClientCredentials. client-id secret (:redirect-uri options))
-        (UserClientBuilder.)
-        (.withUserAuthorizationCode code)
-        (.withBaseUrl (:spp-base-url options))
-        (.build))))
+(defn create-server-token [client]
+  (.getServerToken client))
 
-(defn- parse-response [^SPPClientResponse response]
-  (-> response
-      (.getResponseBody)
-      (json/read-str :key-fn keyword)))
+(defmacro request [forms]
+  `(try
+     (mapify-response (~@forms))
+     (catch SpidApiException e#
+       (mapify-error e#))))
 
-(defn GET [client end-point & [parameters]]
-  (-> client (.GET end-point (or parameters {})) parse-response))
+(defn GET [client token endpoint & [parameters]]
+  (request (.GET client token endpoint (stringify-keys (or parameters {})))))
 
-(defn POST [client end-point parameters]
-  (-> client (.POST end-point parameters) parse-response))
+(defn POST [client token endpoint & [parameters]]
+  (request (.POST client token endpoint (stringify-keys parameters))))
 
-(defn PUT [client end-point parameters]
-  (-> client (.PUT end-point parameters) parse-response))
+(defn PUT [client token endpoint & [parameters]]
+  (request (.PUT client token endpoint (stringify-keys parameters))))
 
-(defn DELETE [client end-point]
-  (-> client (.DELETE end-point) parse-response))
+(defn DELETE [client token endpoint & [parameters]]
+  (request (.DELETE client token endpoint)))
