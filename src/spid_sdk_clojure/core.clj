@@ -41,6 +41,9 @@
 (defn create-server-token [client]
   (.getServerToken client))
 
+(defn create-user-client [client code]
+  (.getUserToken client code))
+
 (defmacro request [forms]
   `(try
      (mapify-response (~@forms))
