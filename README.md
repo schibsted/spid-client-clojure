@@ -8,12 +8,10 @@ Add `[spid-sdk-clojure "0.5.4"]` to `:dependencies` in your `project.clj`.
 
 ## Usage
 
-### Server to server communication
-
-Create a server client with:
+Start by creating a client:
 
 ```clj
-(def client (create-server-client client-id secret))
+(def client (create-client client-id secret))
 ```
 
 You can also pass in an option map. These are the defaults:
@@ -23,21 +21,31 @@ You can also pass in an option map. These are the defaults:
  :redirect-uri "http://localhost:8080"}
 ```
 
-Finally, call the API with:
-
-```clj
-(GET client "/users")
-```
-
 Note: The `:redirect-uri` really makes no sense in this context, but
 is required by the API. It only comes into play when logging in as a user.
 
-### Calling API on behalf of users
+### Server to server communication
 
-Create a user client with:
+Using the client, create a server token:
 
 ```clj
-(def client (create-user-client code client-id secret))
+(def token (create-server-token client))
+```
+
+Then call the API with:
+
+```clj
+(GET client token "/users")
+```
+
+It can also take an optional parameters map.
+
+### Calling API on behalf of users
+
+Create a user token with:
+
+```clj
+(def token (create-user-token client code))
 ```
 
 This is the `code` you get after a user has logged in on SPiD.
