@@ -51,3 +51,7 @@ Create a user token with:
 This is the `code` you get after a user has logged in on SPiD.
 
 Otherwise it works just like the server-to-server API.
+
+```clj
+(GET client token "/me")
+```
