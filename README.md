@@ -4,26 +4,7 @@ A Clojure wrapper for the SPID Java SDK.
 
 ## Install
 
-First get sdk-java installed in your .m2:
-
-```sh
-git clone https://github.com/schibsted/sdk-java.git
-cd sdk-java
-mvn install
-```
-
-Then install spid-sdk-clojure:
-
-```sh
-cd spid-sdk-clojure
-lein install
-```
-
-Finally use it in your project.clj:
-
-```clj
-[spid-sdk-clojure "0.5.4"]
-```
+Add `[spid-sdk-clojure "0.5.4"]` to `:dependencies` in your `project.clj`.
 
 ## Usage
 
