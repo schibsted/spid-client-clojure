@@ -41,8 +41,9 @@
 (defn create-server-token [client]
   (.getServerToken client))
 
-(defn create-user-token [client code]
-  (.getUserToken client code))
+(defn create-user-token
+  ([client code] (.getUserToken client code))
+  ([client username password] (.getUserToken client username password)))
 
 (defmacro request [forms]
   `(try
