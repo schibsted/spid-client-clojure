@@ -1,4 +1,4 @@
-(ns spid-sdk-clojure.core
+(ns spid-client-clojure.core
   (:import [no.spid.api.client SpidApiClient$ClientBuilder SpidApiResponse]
            [no.spid.api.oauth SpidOAuthToken]
            [no.spid.api.exceptions SpidApiException])

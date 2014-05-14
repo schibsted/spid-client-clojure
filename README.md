@@ -1,10 +1,10 @@
-# spid-sdk-clojure
+# spid-client-clojure
 
-A Clojure wrapper for the SPID Java SDK.
+A Clojure wrapper for the SPID Java client.
 
 ## Install
 
-Add `[spid-sdk-clojure "0.5.4"]` to `:dependencies` in your `project.clj`.
+Add `[spid-client-clojure "0.5.5"]` to `:dependencies` in your `project.clj`.
 
 ## Usage
 
