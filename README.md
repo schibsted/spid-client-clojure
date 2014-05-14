@@ -4,7 +4,7 @@ A Clojure wrapper for the SPID Java client.
 
 ## Install
 
-Add `[spid-client-clojure "0.5.5"]` to `:dependencies` in your `project.clj`.
+Add `[spid-client-clojure "1.0.0"]` to `:dependencies` in your `project.clj`.
 
 ## Usage
 
