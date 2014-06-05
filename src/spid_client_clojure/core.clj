@@ -1,9 +1,10 @@
 (ns spid-client-clojure.core
   (:import [no.spid.api.client SpidApiClient$ClientBuilder SpidApiResponse]
            [no.spid.api.oauth SpidOAuthToken]
-           [no.spid.api.exceptions SpidApiException])
+           [no.spid.api.exceptions SpidApiException]
+           [no.spid.api.security SpidSecurityHelper])
   (:require [clojure.data.json :as json]
-            [clojure.walk :refer [stringify-keys]]))
+            [clojure.walk :refer [stringify-keys keywordize-keys]]))
 
 (defn- json-parse [data]
   (json/read-str data :key-fn keyword))
@@ -62,3 +63,15 @@
 
 (defn DELETE [client token endpoint & [parameters]]
   (request (.DELETE client token endpoint)))
+
+(defn- stringify-map [m]
+  (->> m
+       stringify-keys
+       (map (fn [[k v]] [k (str v)]))
+       (into {})))
+
+(defn signed-params [params sign-secret]
+  (let [jparams (java.util.HashMap. (stringify-map params))
+        security-helper (SpidSecurityHelper. sign-secret)]
+    (.addHash security-helper jparams)
+    (keywordize-keys (into {} jparams))))
