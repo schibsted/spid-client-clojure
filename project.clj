@@ -1,4 +1,4 @@
-(defproject spid-client-clojure "1.1.0"
+(defproject spid-client-clojure "1.1.1"
   :description "A thin clojure wrapper around SPiD Java client"
   :dependencies [[org.clojure/clojure "1.5.1"]
                  [org.clojure/data.json "0.2.4"]

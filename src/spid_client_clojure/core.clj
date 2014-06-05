@@ -70,7 +70,7 @@
        (map (fn [[k v]] [k (str v)]))
        (into {})))
 
-(defn signed-params [params sign-secret]
+(defn sign-params [params sign-secret]
   (let [jparams (java.util.HashMap. (stringify-map params))
         security-helper (SpidSecurityHelper. sign-secret)]
     (.addHash security-helper jparams)
