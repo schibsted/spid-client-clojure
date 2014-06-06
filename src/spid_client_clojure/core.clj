@@ -52,7 +52,7 @@
      (catch SpidApiException e#
        (mapify-error e#))
      (catch SpidOAuthException e#
-       {:body nil :status nil :error e# :container nil :success? false})))
+       {:body nil :status nil :error (.getMessage e#) :container nil :success? false})))
 
 (defn GET [client token endpoint & [parameters]]
   (request (.GET client token endpoint (stringify-keys (or parameters {})))))
