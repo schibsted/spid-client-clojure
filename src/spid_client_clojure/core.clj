@@ -1,7 +1,7 @@
 (ns spid-client-clojure.core
   (:import [no.spid.api.client SpidApiClient$ClientBuilder SpidApiResponse]
            [no.spid.api.oauth SpidOAuthToken]
-           [no.spid.api.exceptions SpidApiException]
+           [no.spid.api.exceptions SpidApiException SpidOAuthException]
            [no.spid.api.security SpidSecurityHelper])
   (:require [clojure.data.json :as json]
             [clojure.walk :refer [stringify-keys keywordize-keys]]))
@@ -50,6 +50,8 @@
   `(try
      (mapify-response (~@forms))
      (catch SpidApiException e#
+       (mapify-error e#))
+     (catch SpidOAuthException e#
        (mapify-error e#))))
 
 (defn GET [client token endpoint & [parameters]]
