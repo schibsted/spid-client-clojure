@@ -19,10 +19,9 @@
      :success? (<= 200 (.getResponseCode response) 299)}))
 
 (defn- mapify-error [error]
-  (let [response-body (try (.getResponseBody error) (catch Error e nil))
-        json (and response-body (json-parse response-body))]
-    {:body response-body
-     :status (try (.getResponseCode error) (catch Error e nil))
+  (let [json (json-parse (.getResponseBody error))]
+    {:body (.getResponseBody error)
+     :status (.getResponseCode error)
      :error (:error json)
      :container json
      :success? false}))
@@ -53,7 +52,7 @@
      (catch SpidApiException e#
        (mapify-error e#))
      (catch SpidOAuthException e#
-       (mapify-error e#))))
+       {:body nil :status nil :error e# :container nil :success? false})))
 
 (defn GET [client token endpoint & [parameters]]
   (request (.GET client token endpoint (stringify-keys (or parameters {})))))
