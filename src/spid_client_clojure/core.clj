@@ -19,9 +19,10 @@
      :success? (<= 200 (.getResponseCode response) 299)}))
 
 (defn- mapify-error [error]
-  (let [json (json-parse (.getResponseBody error))]
-    {:body (.getResponseBody error)
-     :status (.getResponseCode error)
+  (let [response-body (try (.getResponseBody error) (catch Error e nil))
+        json (and response-body (json-parse response-body))]
+    {:body response-body
+     :status (try (.getResponseCode error) (catch Error e nil))
      :error (:error json)
      :container json
      :success? false}))
