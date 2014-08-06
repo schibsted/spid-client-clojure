@@ -64,7 +64,7 @@
   (request (.PUT client token endpoint (stringify-keys parameters))))
 
 (defn DELETE [client token endpoint & [parameters]]
-  (request (.DELETE client token endpoint)))
+  (request (.DELETE client token endpoint parameters)))
 
 (defn- stringify-map [m]
   (->> m
