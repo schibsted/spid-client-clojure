@@ -27,7 +27,7 @@
      :success? false}))
 
 (def defaults
-  {:spid-base-url "https://stage.payment.schibsted.no"
+  {:spid-base-url "https://identity-pre.schibsted.com"
    :redirect-uri "http://localhost:8080"})
 
 (defn create-client [client-id secret & [options]]
