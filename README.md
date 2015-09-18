@@ -17,7 +17,7 @@ Start by creating a client:
 You can also pass in an option map. These are the defaults:
 
 ```clj
-{:spp-base-url "https://stage.payment.schibsted.no"
+{:spp-base-url "https://identity-pre.schibsted.com"
  :redirect-uri "http://localhost:8080"}
 ```
 
